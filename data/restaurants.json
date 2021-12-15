@@ -4,4 +4,10 @@
     "cuisine": "Mexican",
     "website": "https://mytest.com",
     "description": "Lovely!"
+}, {
+    "name": "JC's Cuisine",
+    "address": "345 Dublin 16",
+    "cuisine": "Filipino",
+    "website": "https: //jc-cuisine.com",
+    "description": "So yummy!"
 }]
