@@ -1,13 +1,1 @@
-[{
-    "name": "Test",
-    "address": "123 Test Street, Test City",
-    "cuisine": "Mexican",
-    "website": "https://mytest.com",
-    "description": "Lovely!"
-}, {
-    "name": "JC's Cuisine",
-    "address": "345 Dublin 16",
-    "cuisine": "Filipino",
-    "website": "https: //jc-cuisine.com",
-    "description": "Dishes were gorgeous!"
-}]
+[{"id":"r1","name":"Test","address":"123 Test Street, Test City","cuisine":"Mexican","website":"https://mytest.com","description":"Lovely!"},{"id":"r2","name":"JC's Cuisine","address":"345 Dublin 16","cuisine":"Filipino","website":"https: //jc-cuisine.com","description":"Dishes were gorgeous!"},{"name":"Irish Cafe","address":"01 Street, Dublin City","cuisine":"Irish","website":"https://irishcafe.com","description":"Flavourful dishes!","id":"a7090682-1059-40fa-abff-85b5b16cda16"}]

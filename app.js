@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const express = require('express');
+const uuid = require('uuid');
 
 const app = express();
 
@@ -33,9 +34,18 @@ app.get('/restaurants', function (req, res) {
 
 app.get('/restaurants/:id', function (req, res) {
     const restaurantId = req.params.id;
-    res.render('restaurant-detail', {
-        rid: restaurantId
-    }); // rid is your key ID which you can give a relevant name. In this case, rid stands for restuarant ID.
+    const filePath = path.join(__dirname, 'data', 'restaurants.json');
+
+    const fileData = fs.readFileSync(filePath);
+    const storedrestaurants = JSON.parse(fileData);
+
+    for (const restaurant of storedrestaurants) {
+        if (restaurant.id === restaurantId) {
+            return res.render('restaurant-detail', {
+                restaurant: restaurant
+            }); // rid is your key ID which you can give a relevant name. In this case, rid stands for restuarant ID.
+        }
+    }
 });
 
 app.get('/about', function (req, res) {
@@ -48,6 +58,7 @@ app.get('/recommend', function (req, res) {
 
 app.post('/recommend', function (req, res) {
     const restaurant = req.body;
+    restaurant.id = uuid.v4();
     const filePath = path.join(__dirname, 'data', 'restaurants.json');
 
     const fileData = fs.readFileSync(filePath);
