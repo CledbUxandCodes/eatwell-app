@@ -46,6 +46,8 @@ app.get('/restaurants/:id', function (req, res) {
             }); // rid is your key ID which you can give a relevant name. In this case, rid stands for restuarant ID.
         }
     }
+
+    res.render('404');
 });
 
 app.get('/about', function (req, res) {
