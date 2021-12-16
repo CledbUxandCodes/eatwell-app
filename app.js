@@ -31,6 +31,13 @@ app.get('/restaurants', function (req, res) {
     });
 });
 
+app.get('/restaurants/:id', function (req, res) {
+    const restaurantId = req.params.id;
+    res.render('restaurant-detail', {
+        rid: restaurantId
+    }); // rid is your key ID which you can give a relevant name. In this case, rid stands for restuarant ID.
+});
+
 app.get('/about', function (req, res) {
     res.render('about');
 });
