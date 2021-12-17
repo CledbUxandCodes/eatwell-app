@@ -15,10 +15,6 @@ app.use(express.urlencoded({
     extended: false
 }));
 
-app.get('/', function (req, res) {
-    res.render('index');
-});
-
 app.get('/restaurants', function (req, res) {
     const storedRestaurants = resData.getStoredRestaurants();
 
@@ -41,10 +37,6 @@ app.get('/restaurants/:id', function (req, res) {
     }
 
     res.status(404).render('404');
-});
-
-app.get('/about', function (req, res) {
-    res.render('about');
 });
 
 app.get('/recommend', function (req, res) {
