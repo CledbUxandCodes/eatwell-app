@@ -1,9 +1,9 @@
 const path = require('path');
 
 const express = require('express');
-const uuid = require('uuid');
 
-const resData = require('./utility/restaurant-data');
+const defaultRoutes = require('./routes/default');
+const restaurantRoutes = require('./routes/restaurants');
 
 const app = express();
 
@@ -15,49 +15,9 @@ app.use(express.urlencoded({
     extended: false
 }));
 
-app.get('/restaurants', function (req, res) {
-    const storedRestaurants = resData.getStoredRestaurants();
+app.use('/', defaultRoutes); // This will filter ALL incoming requests, which will go directly to default.js file as that was made as the default route, and will check if any of those routes matches the incoming request. If so, the request will be executed. Otherwise, it will point the request to app.js and will again check if the routes matches the incoming request, and if so, will then execute the request. 
 
-    res.render('restaurants', {
-        numberOfRestaurants: storedRestaurants.length,
-        restaurants: storedRestaurants,
-    });
-});
-
-app.get('/restaurants/:id', function (req, res) {
-    const restaurantId = req.params.id;
-    const storedRestaurants = resData.getStoredRestaurants();
-
-    for (const restaurant of storedRestaurants) {
-        if (restaurant.id === restaurantId) {
-            return res.render('restaurant-detail', {
-                restaurant: restaurant
-            });
-        }
-    }
-
-    res.status(404).render('404');
-});
-
-app.get('/recommend', function (req, res) {
-    res.render('recommend');
-});
-
-app.post('/recommend', function (req, res) {
-    const restaurant = req.body;
-    restaurant.id = uuid.v4();
-    const restaurants = resData.getStoredRestaurants();
-
-    restaurants.push(restaurant);
-
-    resData.storeRestaurants(restaurants);
-
-    res.redirect('/confirm');
-});
-
-app.get('/confirm', function (req, res) {
-    res.render('confirm');
-});
+app.use('/', restaurantRoutes);
 
 app.use(function (req, res) {
     res.status(404).render('404');
