@@ -1,9 +1,9 @@
-const fs = require('fs');
-
 const path = require('path');
 
 const express = require('express');
 const uuid = require('uuid');
+
+const resData = require('./utility/restaurant-data');
 
 const app = express();
 
@@ -20,30 +20,23 @@ app.get('/', function (req, res) {
 });
 
 app.get('/restaurants', function (req, res) {
-    const restaurant = req.body;
-    const filePath = path.join(__dirname, 'data', 'restaurants.json');
-
-    const fileData = fs.readFileSync(filePath);
-    const storedrestaurants = JSON.parse(fileData);
+    const storedRestaurants = resData.getStoredRestaurants();
 
     res.render('restaurants', {
-        numberOfRestaurants: storedrestaurants.length,
-        restaurants: storedrestaurants
+        numberOfRestaurants: storedRestaurants.length,
+        restaurants: storedRestaurants,
     });
 });
 
 app.get('/restaurants/:id', function (req, res) {
     const restaurantId = req.params.id;
-    const filePath = path.join(__dirname, 'data', 'restaurants.json');
+    const storedRestaurants = resData.getStoredRestaurants();
 
-    const fileData = fs.readFileSync(filePath);
-    const storedrestaurants = JSON.parse(fileData);
-
-    for (const restaurant of storedrestaurants) {
+    for (const restaurant of storedRestaurants) {
         if (restaurant.id === restaurantId) {
             return res.render('restaurant-detail', {
                 restaurant: restaurant
-            }); // rid is your key ID which you can give a relevant name. In this case, rid stands for restuarant ID.
+            });
         }
     }
 
@@ -61,14 +54,11 @@ app.get('/recommend', function (req, res) {
 app.post('/recommend', function (req, res) {
     const restaurant = req.body;
     restaurant.id = uuid.v4();
-    const filePath = path.join(__dirname, 'data', 'restaurants.json');
+    const restaurants = resData.getStoredRestaurants();
 
-    const fileData = fs.readFileSync(filePath);
-    const storedrestaurants = JSON.parse(fileData);
+    restaurants.push(restaurant);
 
-    storedrestaurants.push(restaurant);
-
-    fs.writeFileSync(filePath, JSON.stringify(storedrestaurants));
+    resData.storeRestaurants(restaurants);
 
     res.redirect('/confirm');
 });
